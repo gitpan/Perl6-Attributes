@@ -3,3 +3,4 @@ MANIFEST
 README
 t/Perl6-Attributes.t
 lib/Perl6/Attributes.pm
+META.yml                                 Module meta-data (added by MakeMaker)

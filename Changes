@@ -1,6 +1,0 @@
-Revision history for Perl extension Perl6::Attributes.
-
-0.01  Thu Mar  3 01:58:43 2005
-	- original version; created by h2xs 1.23 with options
-		-X -n Perl6::Attributes
-
