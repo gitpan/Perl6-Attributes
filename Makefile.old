@@ -150,7 +150,7 @@ C_FILES  =
 O_FILES  = 
 H_FILES  = 
 MAN1PODS = 
-MAN3PODS = 
+MAN3PODS = lib/Perl6/Attributes.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DIRFILESEP)Config.pm $(PERL_INC)$(DIRFILESEP)config.h
@@ -324,6 +324,16 @@ $(INST_ARCHAUTODIR)/.exists :: /usr/lib/perl5/5.8.3/i386-linux-thread-multi/CORE
 
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_ARCHAUTODIR)
 
+config :: $(INST_MAN3DIR)$(DIRFILESEP).exists
+	$(NOECHO) $(NOOP)
+
+
+$(INST_MAN3DIR)/.exists :: /usr/lib/perl5/5.8.3/i386-linux-thread-multi/CORE/perl.h
+	$(NOECHO) $(MKPATH) $(INST_MAN3DIR)
+	$(NOECHO) $(EQUALIZE_TIMESTAMP) /usr/lib/perl5/5.8.3/i386-linux-thread-multi/CORE/perl.h $(INST_MAN3DIR)/.exists
+
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_MAN3DIR)
+
 help:
 	perldoc ExtUtils::MakeMaker
 
@@ -368,8 +378,11 @@ POD2MAN_EXE = $(PERLRUN) "-MExtUtils::Command::MM" -e pod2man "--"
 POD2MAN = $(POD2MAN_EXE)
 
 
-manifypods : pure_all 
-	$(NOECHO) $(NOOP)
+manifypods : pure_all  \
+	lib/Perl6/Attributes.pm \
+	lib/Perl6/Attributes.pm
+	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW)\
+	  lib/Perl6/Attributes.pm $(INST_MAN3DIR)/Perl6::Attributes.$(MAN3EXT) 
 
 
 
@@ -689,7 +702,7 @@ testdb_static :: testdb_dynamic
 ppd:
 	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,01,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl 6-like member variable syntax</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Luke Palmer &lt;fibonaci@localdomain&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Filter-Simple" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
